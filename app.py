@@ -1,6 +1,11 @@
 """
+<<<<<<< HEAD
 app.py — Accounting Pro SaaS
 Single-file entry point. All modules live in views/ (NOT pages/).
+=======
+app.py — Main entry point for the Accounting SaaS
+Streamlit multi-page app with sidebar navigation.
+>>>>>>> 242651246164d34723364975a75aa4746d6c2d48
 """
 import streamlit as st
 from datetime import date
@@ -12,6 +17,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+<<<<<<< HEAD
 # ─── Global CSS ──────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
@@ -129,10 +135,23 @@ if "page" not in st.session_state:
 
 def nav_to(p: str):
     st.session_state.page = p
+=======
+from utils.styles import inject_global_css, fmt_currency, ACCENT, GREEN, RED, YELLOW, PURPLE, CYAN, AMBER
+
+inject_global_css()
+
+# ─── Navigation state ────────────────────────────────────────────────────────
+if "page" not in st.session_state:
+    st.session_state.page = "dashboard"
+
+def nav_to(page: str):
+    st.session_state.page = page
+>>>>>>> 242651246164d34723364975a75aa4746d6c2d48
     st.rerun()
 
 # ─── Sidebar ─────────────────────────────────────────────────────────────────
 with st.sidebar:
+<<<<<<< HEAD
 
     st.markdown(f"""
     <div style="padding:20px 16px 10px 16px;">
@@ -150,6 +169,21 @@ with st.sidebar:
     current = st.session_state.page
 
     NAV = [
+=======
+    st.markdown("""
+    <div style="padding: 16px 0 8px 0; text-align:center;">
+        <div style="font-size:26px; font-weight:800; color:#3D5AF1; letter-spacing:-1px;">
+            📊 AccPro
+        </div>
+        <div style="font-size:11px; color:#8A94A6; margin-top:2px;">PKR Accounting Suite</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.divider()
+
+    # Nav items: each is either ("SECTION HEADER",) or ("Label", "icon", "key")
+    NAV_ITEMS = [
+>>>>>>> 242651246164d34723364975a75aa4746d6c2d48
         ("OVERVIEW",),
         ("Dashboard",         "🏠", "dashboard"),
         ("FINANCE",),
@@ -175,6 +209,7 @@ with st.sidebar:
         ("Data Tools",        "🔧", "data_tools"),
     ]
 
+<<<<<<< HEAD
     for item in NAV:
         if len(item) == 1:
             st.markdown(
@@ -193,11 +228,36 @@ with st.sidebar:
     st.markdown(f"""
     <div style="height:1px;background:#F0F2F7;margin:10px 12px 8px 12px;"></div>
     <div style="font-size:11px;color:#C4C9D4;padding:0 14px 16px 14px;">
+=======
+    current = st.session_state.page
+
+    for item in NAV_ITEMS:
+        # Section header — only 1 element
+        if len(item) == 1:
+            st.markdown(f'<div style="font-size:10px;font-weight:700;color:#8A94A6;'
+                        f'text-transform:uppercase;letter-spacing:0.08em;'
+                        f'padding:14px 8px 4px 8px;">{item[0]}</div>',
+                        unsafe_allow_html=True)
+            continue
+
+        # Nav button — 3 elements
+        label, icon, key = item
+        is_active = current == key
+        btn_type = "primary" if is_active else "secondary"
+        if st.button(f"{icon}  {label}", key=f"nav_{key}",
+                     use_container_width=True, type=btn_type):
+            nav_to(key)
+
+    st.divider()
+    st.markdown(f"""
+    <div style="font-size:11px; color:#8A94A6; padding:0 8px;">
+>>>>>>> 242651246164d34723364975a75aa4746d6c2d48
         📅 {date.today().strftime('%d %b %Y')}
     </div>
     """, unsafe_allow_html=True)
 
 # ─── Page Router ─────────────────────────────────────────────────────────────
+<<<<<<< HEAD
 p = st.session_state.page
 
 if   p == "dashboard":    from views.dashboard    import render; render()
@@ -216,3 +276,70 @@ elif p == "investors":    from views.investors     import render; render()
 elif p == "reports":      from views.reports       import render; render()
 elif p == "data_tools":   from views.data_tools    import render; render()
 else:                     from views.dashboard     import render; render()
+=======
+page = st.session_state.page
+
+if page == "dashboard":
+    from pages.dashboard import render
+    render()
+
+elif page == "journal":
+    from pages.journal import render
+    render()
+
+elif page == "trial_balance":
+    from pages.trial_balance import render
+    render()
+
+elif page == "accounts":
+    from pages.accounts import render
+    render()
+
+elif page == "sales":
+    from pages.invoices import render
+    render("sale")
+
+elif page == "purchases":
+    from pages.invoices import render
+    render("purchase")
+
+elif page == "customers":
+    from pages.customers import render
+    render()
+
+elif page == "suppliers":
+    from pages.suppliers import render
+    render()
+
+elif page == "receipts":
+    from pages.receipts import render
+    render()
+
+elif page == "payments":
+    from pages.payments import render
+    render()
+
+elif page == "products":
+    from pages.products import render
+    render()
+
+elif page == "stock":
+    from pages.stock import render
+    render()
+
+elif page == "investors":
+    from pages.investors import render
+    render()
+
+elif page == "reports":
+    from pages.reports import render
+    render()
+
+elif page == "data_tools":
+    from pages.data_tools import render
+    render()
+
+else:
+    from pages.dashboard import render
+    render()
+>>>>>>> 242651246164d34723364975a75aa4746d6c2d48
